@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }" :class="{ 'dark': darkMode }">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khalid Play School Malang</title>
+  <!-- Tailwind CSS CDN (Play CDN - untuk demo) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Alpine.js untuk interaktivitas -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1e3a8a',
+            secondary: '#f97316',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .slide {
+      transition: transform 0.5s ease-in-out;
+    }
+  </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+
+  <!-- Header / Navbar -->
+  <header class="bg-white shadow-sm dark:bg-gray-800">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <div class="bg-primary w-10 h-10 rounded-full flex items-center justify-center text-white font-bold">TK</div>
+        <h1 class="text-xl font-bold text-gray-800 dark:text-white">Khalid Play School Malang</h1>
+      </div>
+      <nav class="hidden md:block">
+        <ul class="flex space-x-6">
+          <li><a href="#" class="text-gray-700 hover:text-primary font-medium dark:text-gray-300 dark:hover:text-secondary">Beranda</a></li>
+          <li><a href="#profil" class="text-gray-700 hover:text-primary font-medium dark:text-gray-300 dark:hover:text-secondary">Profil</a></li>
+          <li><a href="#galeri" class="text-gray-700 hover:text-primary font-medium dark:text-gray-300 dark:hover:text-secondary">Galeri</a></li>
+          <li><a href="#kontak" class="text-gray-700 hover:text-primary font-medium dark:text-gray-300 dark:hover:text-secondary">Kontak</a></li>
+        </ul>
+      </nav>
+      <!-- Dark Mode Toggle -->
+      <button 
+        @click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode)"
+        class="ml-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-yellow-300">
+        <i :class="darkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-r from-primary to-blue-700 text-white">
+    <div class="container mx-auto px-4 py-20 md:py-28 text-center">
+      <h1 class="text-3xl md:text-5xl font-bold mb-4">Selamat Datang di Khalid Play School Malang</h1>
+      <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8">Mendidik anak dengan kasih sayang, akhlak mulia, dan semangat belajar sepanjang hayat.</p>
+      <a href="#kontak" class="bg-secondary hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full inline-block transition">Hubungi Kami</a>
+    </div>
+  </section>
+
+  <!-- Profil Sekolah -->
+  <section id="profil" class="py-16 bg-white dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-12">Tentang Kami</h2>
+      <div class="flex flex-col md:flex-row items-center gap-8">
+        <div class="md:w-1/2">
+          <img src="https://placehold.co/600x400/1e3a8a/white?text=Foto+TK+Al+Hikmah" alt="Foto Sekolah" class="rounded-lg shadow-md w-full">
+        </div>
+        <div class="md:w-1/2">
+          <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Visi & Misi</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">
+            Khalid Play School Malang berkomitmen mencetak generasi Qur’ani yang cerdas, kreatif, dan berakhlak mulia.
+          </p>
+          <ul class="list-disc pl-5 text-gray-600 dark:text-gray-300 space-y-2">
+            <li>Mengembangkan potensi anak secara holistik</li>
+            <li>Menanamkan nilai-nilai Islam sejak dini</li>
+            <li>Menciptakan lingkungan belajar yang menyenangkan</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galeri dengan Slider Sederhana -->
+  <section id="galeri" class="py-16 bg-gray-100 dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-8">Galeri Kegiatan</h2>
+      
+      <div x-data="{ current: 0, images: [
+        'https://placehold.co/600x400/f97316/white?text=Kegiatan+1',
+        'https://placehold.co/600x400/1e3a8a/white?text=Kegiatan+2',
+        'https://placehold.co/600x400/0ea5e9/white?text=Kegiatan+3',
+        'https://placehold.co/600x400/8b5cf6/white?text=Kegiatan+4',
+        'https://placehold.co/600x400/10b981/white?text=Kegiatan+5'
+      ] }" class="relative max-w-4xl mx-auto">
+        
+        <!-- Gambar Utama -->
+        <div class="overflow-hidden rounded-xl shadow-lg">
+          <img :src="images[current]" alt="Galeri" class="w-full h-64 md:h-96 object-cover">
+        </div>
+
+        <!-- Navigasi -->
+        <button 
+          @click="current = current === 0 ? images.length - 1 : current - 1"
+          class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button 
+          @click="current = current === images.length - 1 ? 0 : current + 1"
+          class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Indikator -->
+        <div class="flex justify-center mt-4 space-x-2">
+          <template x-for="(img, index) in images" :key="index">
+            <button 
+              @click="current = index"
+              class="w-3 h-3 rounded-full" 
+              :class="current === index ? 'bg-secondary' : 'bg-gray-400'">
+            </button>
+          </template>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kontak dengan Form -->
+  <section id="kontak" class="py-16 bg-white dark:bg-gray-800">
+    <div class="container mx-auto px-4 max-w-4xl">
+      <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-12">Kontak Kami</h2>
+      
+      <div class="grid md:grid-cols-2 gap-10">
+        <!-- Info Kontak -->
+        <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-sm">
+          <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Informasi Kontak</h3>
+          <div class="space-y-4 text-gray-700 dark:text-gray-300">
+            <div class="flex items-start">
+              <i class="fas fa-map-marker-alt mt-1 mr-3 text-primary"></i>
+              <p>Jl. Sawojajar, Malang, Jawa Timur</p>
+            </div>
+            <div class="flex items-center">
+              <i class="fas fa-phone mr-3 text-primary"></i>
+              <p>(031) 1234 5678</p>
+            </div>
+            <div class="flex items-center">
+              <i class="fas fa-envelope mr-3 text-primary"></i>
+              <p>info@khalidplayschool.sch.id</p>
+            </div>
+            <div class="flex items-center">
+              <i class="fab fa-instagram mr-3 text-primary"></i>
+              <p>@khalifplayschool</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Kontak -->
+        <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-sm">
+          <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Kirim Pesan</h3>
+          <!-- Ganti action dengan Formspree/FormSubmit jika ingin kirim email -->
+          <form action="https://formspree.io/f/your-form-id" method="POST">
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-300 mb-1">Nama Lengkap</label>
+              <input type="text" name="name" required class="w-full px-4 py-2 rounded border dark:bg-gray-600 dark:border-gray-500 dark:text-white">
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-300 mb-1">Email</label>
+              <input type="email" name="email" required class="w-full px-4 py-2 rounded border dark:bg-gray-600 dark:border-gray-500 dark:text-white">
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 dark:text-gray-300 mb-1">Pesan</label>
+              <textarea name="message" rows="4" required class="w-full px-4 py-2 rounded border dark:bg-gray-600 dark:border-gray-500 dark:text-white"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-primary hover:bg-blue-800 text-white font-medium py-2 rounded transition">
+              Kirim Pesan
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-4 text-center">
+      <p>&copy; 2025 Khalid Play School Malang. All Rights Reserved.</p>
+      <p class="mt-2 text-gray-400">Mendidik dengan Hati, Membangun Masa Depan</p>
+    </div>
+  </footer>
+
+</body>
+</html>
